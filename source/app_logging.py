@@ -3,7 +3,7 @@ from logging import FileHandler, StreamHandler, Formatter
 
 from source.config import APP_DEBUG
 
-logger = logging.getLogger("source")
+logger = logging.getLogger("tg_combot")
 _APP_DEBUG = APP_DEBUG == "1"
 
 
@@ -12,7 +12,7 @@ def is_debug() -> bool:
 
 
 def setup_logging():
-    """Console + bot.log, DEBUG if APP_DEBUG=1."""
+    """Console + tg-combot.log, DEBUG if APP_DEBUG=1."""
     if logger.handlers:
         return logger
 
@@ -23,7 +23,7 @@ def setup_logging():
     sh.setLevel(level)
     sh.setFormatter(fmt)
 
-    fh = FileHandler("bot.log", encoding="utf-8")
+    fh = FileHandler("tg-combot.log", encoding="utf-8")
     fh.setLevel(level)
     fh.setFormatter(fmt)
 

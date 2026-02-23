@@ -44,5 +44,5 @@ jobs:
         run: |
           docker build \
             --build-arg GIT_COMMIT=${GITHUB_SHA::7} \
-            -t tg-bot-template:${GITHUB_SHA::7} \
+            -t tg-combot:${GITHUB_SHA::7} \
             .

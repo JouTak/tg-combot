@@ -1,5 +1,6 @@
 .env
 bot.log
+tg-combot.log
 __pycache__/
 *.pyc
 .venv/

@@ -7,8 +7,8 @@ if __name__ == "__main__":
     setup_logging()
     logger.info(
         """
---- Бот запускается ---
-Шаблон: tg-bot-template
+--- tg-combot запускается ---
+Проект: tg-combot
 Коммит: %s
 """.strip()
         % COMMIT_HASH

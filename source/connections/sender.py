@@ -66,3 +66,28 @@ def send_message_limited(chat_id: int, text: str, **kwargs):
     except ApiException as e:
         logger.warning(f"Ошибка Telegram API при отправке в chat_id={chat_id}: {e}")
         return None
+
+
+def send_photo_limited(chat_id: int, photo_path: str, caption: str | None = None, **kwargs):
+    _global.wait()
+    _per_chat[chat_id].wait()
+
+    safe_caption = _auto_html(caption)
+    kwargs.pop("parse_mode", None)
+    kwargs["parse_mode"] = "HTML"
+
+    try:
+        with open(photo_path, "rb") as f:
+            return bot.send_photo(chat_id, f, caption=safe_caption, **kwargs)
+    except FileNotFoundError:
+        logger.warning(f"Photo not found: {photo_path}")
+        return None
+    except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
+        logger.warning(
+            f"Не смог отправить фото в chat_id={chat_id}: сеть недоступна "
+            f"({'таймаут' if isinstance(e, requests.exceptions.Timeout) else 'нет соединения'})."
+        )
+        return None
+    except ApiException as e:
+        logger.warning(f"Ошибка Telegram API при отправке фото в chat_id={chat_id}: {e}")
+        return None
