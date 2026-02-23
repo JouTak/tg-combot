@@ -25,7 +25,7 @@ def is_enabled() -> bool:
 
 def subscription_keyboard() -> InlineKeyboardMarkup:
     kb = InlineKeyboardMarkup()
-    kb.add(InlineKeyboardButton(text="🔗 Перейти на наш канал любителей майнкрафта", url=CHANNEL_URL))
+    kb.add(InlineKeyboardButton(text="🔗 Перейти на канал ITMOcraft", url=CHANNEL_URL))
     kb.add(InlineKeyboardButton(text="✅ Я подписался!", callback_data="check_subscription"))
     return kb
 
@@ -47,7 +47,8 @@ def check_subscription(user_id: int) -> bool:
 
 def send_gate(chat_id: int, user_id: int | None = None, message_thread_id: int | None = None):
     kb = subscription_keyboard()
-    caption = "Просим подписаться на наш тг-канал! Никакого спама, только обсуждение обновлений и анонсы наших событий. После этого откроется доступ ко всем нужным материалам"
+    caption = ("Просим подписаться на наш тг-канал любителей майнкрафта!\n"
+               "Никакого спама, только обсуждение обновлений и анонсы наших событий. После этого откроется доступ ко всем интересующим материалам")
     if SUBSCRIPTION_PHOTO_PATH:
         sent = send_photo_limited(
             chat_id,
