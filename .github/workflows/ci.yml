@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    env:
+      # Fake token so importing config works in CI.
+      # Format like real Telegram tokens: <digits>:<string>
+      BOT_TOKEN: "123456:CI_DUMMY_TOKEN"
+      APP_DEBUG: "0"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: |
+            source/requirements.txt
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r source/requirements.txt
+
+      - name: Basic sanity (compile + import)
+        run: |
+          python -m compileall -q source
+          python -c "import source; import source.app; import source.handlers; import source.callbacks; print('imports_ok')"
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Docker build
+        run: |
+          docker build \
+            --build-arg GIT_COMMIT=${GITHUB_SHA::7} \
+            -t tg-bot-template:${GITHUB_SHA::7} \
+            .
