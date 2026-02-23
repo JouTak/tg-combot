@@ -4,14 +4,17 @@ from telebot.apihelper import ApiException
 from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from source.app_logging import logger
-from source.config import CHANNEL_ID, CHANNEL_URL, SUBSCRIPTION_GATE_ENABLED, SUBSCRIPTION_PHOTO_PATH
+from source.config import BOT_URL, CHANNEL_ID, CHANNEL_URL, SUBSCRIPTION_GATE_ENABLED, SUBSCRIPTION_PHOTO_PATH
 from source.connections.bot_factory import bot
 from source.connections.sender import send_message_limited, send_photo_limited
 
 
 
 
-COMMUNITY_LINK = "https://itmocraft"
+COMMUNITY_LINK = (f"Будем так же рады вашим подпискам на наш тикток @joutaksmp!"
+                  f"\nМатериалы:\nСкин Пети Гуменника вместе с инструкцией - https://cloud.joutak.ru"
+                  f"\n"
+                  f"\nВ случае возникновения вопросов можешь писать создателю проекта - @enderdissa")
 
 ALLOWED_STATUSES = {"member", "administrator", "creator"}
 
@@ -66,4 +69,10 @@ def ensure_subscribed(chat_id: int, user_id: int, message_thread_id: int | None 
 
 
 def after_subscription(chat_id: int, message_thread_id: int | None = None):
-    send_message_limited(chat_id, "✅ Подписка подтверждена. Пропиши /start", message_thread_id=message_thread_id)
+    lines = [
+        "✅ Подписка подтверждена!",
+        COMMUNITY_LINK
+    ]
+    if BOT_URL:
+        lines += ["", "Ссылка на бота: " + BOT_URL]
+    send_message_limited(chat_id, "\n".join(lines), message_thread_id=message_thread_id)

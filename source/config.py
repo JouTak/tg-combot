@@ -13,6 +13,7 @@ COMMIT_HASH = os.getenv("GIT_COMMIT", "unknown")
 
 # --- bot ---
 BOT_TOKEN = os.getenv("BOT_TOKEN")
+BOT_URL = os.getenv("BOT_URL", "")
 
 # --- subscription gate (optional) ---
 SUBSCRIPTION_GATE_ENABLED = os.getenv("SUBSCRIPTION_GATE_ENABLED", "0") == "1"

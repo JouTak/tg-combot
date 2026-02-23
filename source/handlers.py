@@ -23,8 +23,13 @@ def start_handler(message):
 def fallback_text(message):
     if getattr(message.chat, "type", None) != "private":
         return
-    send_message_limited(
+    user = getattr(message, "from_user", None)
+    if not user:
+        return
+    if not ensure_subscribed(
         message.chat.id,
-        "Нажми /start",
+        user.id,
         message_thread_id=getattr(message, "message_thread_id", None),
-    )
+    ):
+        return
+    after_subscription(message.chat.id, message_thread_id=getattr(message, "message_thread_id", None))
