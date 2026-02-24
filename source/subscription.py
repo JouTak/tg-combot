@@ -7,6 +7,7 @@ from source.app_logging import logger
 from source.config import BOT_URL, CHANNEL_ID, CHANNEL_URL, SUBSCRIPTION_GATE_ENABLED, SUBSCRIPTION_PHOTO_PATH
 from source.connections.bot_factory import bot
 from source.connections.sender import send_message_limited, send_photo_limited
+from source.storage.user_store import mark_gate_shown, mark_materials_sent, mark_subscription_verified
 
 
 
@@ -46,6 +47,8 @@ def check_subscription(user_id: int) -> bool:
 
 
 def send_gate(chat_id: int, user_id: int | None = None, message_thread_id: int | None = None):
+    if user_id is not None:
+        mark_gate_shown(user_id)
     kb = subscription_keyboard()
     caption = ("Просим подписаться на наш тг-канал любителей майнкрафта!\n"
                "Никакого спама, только обсуждение обновлений и анонсы наших событий. После этого откроется доступ ко всем интересующим материалам")
@@ -69,7 +72,10 @@ def ensure_subscribed(chat_id: int, user_id: int, message_thread_id: int | None 
     return False
 
 
-def after_subscription(chat_id: int, message_thread_id: int | None = None):
+def after_subscription(chat_id: int, user_id: int | None = None, message_thread_id: int | None = None):
+    if user_id is not None:
+        mark_subscription_verified(user_id)
+        mark_materials_sent(user_id)
     lines = [
         "✅ Подписка подтверждена!",
         COMMUNITY_LINK
