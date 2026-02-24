@@ -12,7 +12,7 @@ from source.connections.sender import send_message_limited, send_photo_limited
 
 
 COMMUNITY_LINK = (f"Будем так же рады вашим подпискам на наш тикток @joutaksmp!"
-                  f"\nМатериалы:\nСкин Пети Гуменника вместе с инструкцией - https://cloud.joutak.ru"
+                  f"\nМатериалы:\nСкин Пети Гуменника вместе с инструкцией - cloud.joutak.ru/s/6b2NxK37GP2H9mm"
                   f"\n"
                   f"\nВ случае возникновения вопросов можешь писать создателю проекта - @enderdissa")
 
