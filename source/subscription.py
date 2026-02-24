@@ -12,8 +12,7 @@ from source.storage.user_store import mark_gate_shown, mark_materials_sent, mark
 
 
 
-COMMUNITY_LINK = (f"Будем так же рады вашим подпискам на наш тикток @joutaksmp!"
-                  f"\nМатериалы:\nСкин Пети Гуменника вместе с инструкцией - cloud.joutak.ru/s/6b2NxK37GP2H9mm"
+COMMUNITY_LINK = (f"\nМатериалы:\nСкин Пети Гуменника вместе с инструкцией - cloud.joutak.ru/s/6b2NxK37GP2H9mm"
                   f"\n"
                   f"\nВ случае возникновения вопросов можешь писать создателю проекта - @enderdissa")
 
@@ -77,7 +76,7 @@ def after_subscription(chat_id: int, user_id: int | None = None, message_thread_
         mark_subscription_verified(user_id)
         mark_materials_sent(user_id)
     lines = [
-        "✅ Подписка подтверждена!",
+        "✅ Будем так же рады вашим подпискам на наш тикток @joutaksmp!",
         COMMUNITY_LINK
     ]
     if BOT_URL:
